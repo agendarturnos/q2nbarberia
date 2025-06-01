@@ -82,7 +82,7 @@ function AppContent() {
             element={user ? <Navigate to="/" replace /> : <Login />}
           />
 
-          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/login/reset-password" element={<PasswordReset />} />
 
           <Route
             path="/professional"
