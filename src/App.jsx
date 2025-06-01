@@ -27,7 +27,8 @@ const COMPANY_ID  = import.meta.env.VITE_COMPANY_ID;
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
+     <Router basename="/q2nbarberia">
+
         <AppContent />
       </Router>
     </AuthProvider>
