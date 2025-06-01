@@ -152,7 +152,7 @@ export default function Login() {
           {isRegister ? 'Ya tengo cuenta' : 'Crear cuenta'}
         </button>
         <button className="text-blue-500 underline">
-          <a href="/reset-password">Recuperar Contraseña</a>
+          <a href="/q2nbarberia/reset-password">Recuperar Contraseña</a>
         </button>
       </div>
     </div>
