@@ -1,6 +1,6 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
@@ -151,9 +151,9 @@ export default function Login() {
         >
           {isRegister ? 'Ya tengo cuenta' : 'Crear cuenta'}
         </button>
-        <button className="text-blue-500 underline">
-          <a href="/q2nbarberia/reset-password">Recuperar Contraseña</a>
-        </button>
+         <Link to="reset-password" className="text-blue-500 underline">
+           Recuperar Contraseña
+         </Link>
       </div>
     </div>
   );
