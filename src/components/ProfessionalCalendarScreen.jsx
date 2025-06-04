@@ -166,6 +166,7 @@ export default function ProfessionalCalendarScreen() {
           clientEmail: auth.currentUser.email,
           datetime: dt.toISOString(),
           duration: service.duration,
+          companyId: 'empresa_123'
         });
         alert('Turno reservado correctamente.');
         navigate('/');
