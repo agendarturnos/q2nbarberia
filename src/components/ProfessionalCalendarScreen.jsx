@@ -13,6 +13,7 @@ import {
   isBefore,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
+const COMPANY_ID  = import.meta.env.VITE_COMPANY_ID;
 
 export default function ProfessionalCalendarScreen() {
   const navigate = useNavigate();
@@ -166,6 +167,7 @@ export default function ProfessionalCalendarScreen() {
           clientEmail: auth.currentUser.email,
           datetime: dt.toISOString(),
           duration: service.duration,
+          companyId: COMPANY_ID,
         });
         alert('Turno reservado correctamente.');
         navigate('/');
