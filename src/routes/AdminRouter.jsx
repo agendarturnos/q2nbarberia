@@ -43,9 +43,15 @@ export default function AdminRouter() {
       collection(db, 'appointments'),
       where('companyId', '==', COMPANY_ID)
     );
-    const unsubAppointments = onSnapshot(qAppointments, snap =>
-      setAppointments(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-    );
+    const unsubAppointments = onSnapshot(qAppointments, snap => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      setAppointments(
+        snap.docs
+          .map(d => ({ id: d.id, ...d.data() }))
+          .filter(a => new Date(a.datetime) >= today)
+      );
+    });
 
     const qCategories = query(
       collection(db, 'categories'),
