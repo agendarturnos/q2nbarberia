@@ -8,7 +8,7 @@ import {
   deleteDoc,
   doc
 } from 'firebase/firestore';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { db, auth } from '../firebaseConfig';
 
@@ -26,8 +26,11 @@ export default function MyAppointmentsScreen() {
         where('clientId', '==', auth.currentUser.uid)
       );
       const snap = await getDocs(q);
-      const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      data.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+      const now = new Date();
+      const data = snap.docs
+        .map(d => ({ id: d.id, ...d.data() }))
+        .filter(a => parseISO(a.datetime) >= now);
+      data.sort((a, b) => parseISO(a.datetime) - parseISO(b.datetime));
       setAppointments(data);
       setLoading(false);
     }
@@ -71,7 +74,7 @@ export default function MyAppointmentsScreen() {
   }, [services]);
 
   const handleCancel = async (id, datetime) => {
-    const diff = new Date(datetime) - new Date();
+    const diff = parseISO(datetime) - new Date();
     if (diff < 1000 * 60 * 60 * 24) return;
     if (!window.confirm('¿Estás seguro de que quieres cancelar este turno?'))
       return;
@@ -130,7 +133,7 @@ export default function MyAppointmentsScreen() {
       {appointments.length > 0 ? (
         <ul className="space-y-4">
           {appointments.map(a => {
-            const apptDate = new Date(a.datetime);
+            const apptDate = parseISO(a.datetime);
             const canCancel = apptDate - new Date() >= 1000 * 60 * 60 * 24;
             const depositConfirmed = !!a.depositConfirmed;
             const paymentConfirmed = !!a.paymentConfirmed;
