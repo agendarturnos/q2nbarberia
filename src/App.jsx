@@ -18,6 +18,7 @@ import ServiceSummaryScreen from './components/ServiceSummaryScreen';
 import StylistSelectionScreen from './components/StylistSelectionScreen';
 import ProfessionalCalendarScreen from './components/ProfessionalCalendarScreen';
 import MyAppointmentsScreen from './components/MyAppointmentsScreen';
+import MyProfileScreen from './components/MyProfileScreen';
 import AdminRouter from './routes/AdminRouter';
 import Login from './components/Login';
 
@@ -53,6 +54,7 @@ function AppContent() {
           {user && (
             <>
               <Link to="/mis-turnos" className={baseBtn}>Mis Turnos</Link>
+              <Link to="/mi-perfil" className={baseBtn}>Mi Perfil</Link>
               {isTenantAdmin && (
                 <Link to="/admin" className={baseBtn}>Panel Admin</Link>
               )}
@@ -98,6 +100,15 @@ function AppContent() {
             element={
               <RequireAuth>
                 <MyAppointmentsScreen />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/mi-perfil"
+            element={
+              <RequireAuth>
+                <MyProfileScreen />
               </RequireAuth>
             }
           />
