@@ -19,11 +19,9 @@ export default function MyProfileScreen() {
       const p = profile.phone || '';
       if (p) {
         setPhoneCode(p.slice(0, 3));
-        setPhoneArea(p.slice(3, 7));
-        setPhoneNumber(p.slice(7));
+        setPhoneNumber(p.slice(3));
       } else {
         setPhoneCode(COUNTRY_CODES[0].code);
-        setPhoneArea(AREA_CODES[0].code);
         setPhoneNumber('');
       }
     }
@@ -77,13 +75,6 @@ export default function MyProfileScreen() {
             </option>
           ))}
         </select>
-        <input
-          type="tel"
-          placeholder="Prefijo"
-          value={phoneArea}
-          onChange={e => setPhoneArea(e.target.value.replace(/\D/, ''))}
-          className="border p-2 w-1/4 rounded"
-        />
         <input
           type="tel"
           placeholder="Celular"
