@@ -8,7 +8,7 @@ import {
   deleteDoc,
   doc
 } from 'firebase/firestore';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { db, auth } from '../firebaseConfig';
 
@@ -29,8 +29,8 @@ export default function MyAppointmentsScreen() {
       const now = new Date();
       const data = snap.docs
         .map(d => ({ id: d.id, ...d.data() }))
-        .filter(a => new Date(a.datetime) >= now);
-      data.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+        .filter(a => parseISO(a.datetime) >= now);
+      data.sort((a, b) => parseISO(a.datetime) - parseISO(b.datetime));
       setAppointments(data);
       setLoading(false);
     }
