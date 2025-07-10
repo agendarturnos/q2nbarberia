@@ -2,18 +2,30 @@ import React, { useState, useEffect } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useAuth } from '../AuthProvider';
+import { COUNTRY_CODES, AREA_CODES } from '../data/phone';
 
 export default function MyProfileScreen() {
   const { user, profile } = useAuth();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneCode, setPhoneCode] = useState(COUNTRY_CODES[0].code);
+  const [phoneArea, setPhoneArea] = useState(AREA_CODES[0].code);
+  const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
     if (profile) {
       setFirstName(profile.firstName || '');
       setLastName(profile.lastName || '');
-      setPhone(profile.phone || '');
+      const p = profile.phone || '';
+      if (p) {
+        setPhoneCode(p.slice(0, 3));
+        setPhoneArea(p.slice(3, 7));
+        setPhoneNumber(p.slice(7));
+      } else {
+        setPhoneCode(COUNTRY_CODES[0].code);
+        setPhoneArea(AREA_CODES[0].code);
+        setPhoneNumber('');
+      }
     }
   }, [profile]);
 
@@ -26,7 +38,7 @@ export default function MyProfileScreen() {
       await updateDoc(doc(db, 'users', user.uid), {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        phone: phone.trim(),
+        phone: `${phoneCode}${phoneArea}${phoneNumber.trim()}`,
       });
       alert('Datos actualizados');
     } catch (err) {
@@ -53,13 +65,33 @@ export default function MyProfileScreen() {
         onChange={e => setLastName(e.target.value)}
         className="border p-2 w-full rounded"
       />
-      <input
-        type="tel"
-        placeholder="Teléfono"
-        value={phone}
-        onChange={e => setPhone(e.target.value)}
-        className="border p-2 w-full rounded"
-      />
+      <div className="flex space-x-3">
+        <select
+          value={phoneCode}
+          onChange={e => setPhoneCode(e.target.value)}
+          className="border p-2 rounded flex-shrink-0"
+        >
+          {COUNTRY_CODES.map(cc => (
+            <option key={cc.code} value={cc.code}>
+              {cc.label} ({cc.code})
+            </option>
+          ))}
+        </select>
+        <input
+          type="tel"
+          placeholder="Prefijo"
+          value={phoneArea}
+          onChange={e => setPhoneArea(e.target.value.replace(/\D/, ''))}
+          className="border p-2 w-1/4 rounded"
+        />
+        <input
+          type="tel"
+          placeholder="Celular"
+          value={phoneNumber}
+          onChange={e => setPhoneNumber(e.target.value.replace(/\D/, ''))}
+          className="border p-2 w-2/4 rounded"
+        />
+      </div>
       <button
         onClick={handleSave}
         className="w-full bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition"
