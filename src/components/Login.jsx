@@ -7,13 +7,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from '../firebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
-
-const COUNTRY_CODES = [
-  { code: '+54', label: '' },
-];
-const AREA_CODES = [
-  { code: '2262', label: 'Necochea' },
-];
+import { COUNTRY_CODES, AREA_CODES } from '../data/phone';
 
 export default function Login() {
   const navigate = useNavigate();
