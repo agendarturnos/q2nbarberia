@@ -74,7 +74,7 @@ export default function MyAppointmentsScreen() {
   }, [services]);
 
   const handleCancel = async (id, datetime) => {
-    const diff = new Date(datetime) - new Date();
+    const diff = parseISO(datetime) - new Date();
     if (diff < 1000 * 60 * 60 * 24) return;
     if (!window.confirm('¿Estás seguro de que quieres cancelar este turno?'))
       return;
@@ -133,7 +133,7 @@ export default function MyAppointmentsScreen() {
       {appointments.length > 0 ? (
         <ul className="space-y-4">
           {appointments.map(a => {
-            const apptDate = new Date(a.datetime);
+            const apptDate = parseISO(a.datetime);
             const canCancel = apptDate - new Date() >= 1000 * 60 * 60 * 24;
             const depositConfirmed = !!a.depositConfirmed;
             const paymentConfirmed = !!a.paymentConfirmed;
