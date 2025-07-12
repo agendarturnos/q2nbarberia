@@ -11,6 +11,7 @@ import {
 import { signOut } from 'firebase/auth';
 import { auth } from './firebaseConfig';
 import { AuthProvider, useAuth } from './AuthProvider';
+import { TenantProvider, useTenant } from './TenantProvider';
 import RequireAuth from './components/RequireAuth';
 import PasswordReset from './components/PasswordReset';
 import ServiceListScreen from './components/ServiceListScreen';
@@ -22,15 +23,21 @@ import MyProfileScreen from './components/MyProfileScreen';
 import AdminRouter from './routes/AdminRouter';
 import Login from './components/Login';
 
-const projectName = String(import.meta.env.VITE_PROJECT_NAME || 'Mi Aplicación');
-const COMPANY_ID  = import.meta.env.VITE_COMPANY_ID;
-
 export default function App() {
   return (
     <AuthProvider>
-     <Router basename="/q2nbarberia">
-
-        <AppContent />
+      <Router>
+        <Routes>
+          <Route
+            path="/:tenant/*"
+            element={
+              <TenantProvider>
+                <AppContent />
+              </TenantProvider>
+            }
+          />
+          <Route path="*" element={<Navigate to="/demo" replace />} />
+        </Routes>
       </Router>
     </AuthProvider>
   );
@@ -39,9 +46,10 @@ export default function App() {
 function AppContent() {
   const { user, profile } = useAuth();
   const location         = useLocation();
+  const { slug, projectName, companyId } = useTenant();
   // usados para mostrar/ocultar el panel admin
   const isTenantAdmin    =
-    profile?.isAdmin === true && profile?.companyId === COMPANY_ID;
+    profile?.isAdmin === true && profile?.companyId === companyId;
 
   const baseBtn =
     "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
@@ -49,14 +57,14 @@ function AppContent() {
   return (
     <>
       <header className="p-4 bg-gray-100 flex flex-wrap justify-between items-center gap-2">
-        <Link to="/" className="text-xl font-bold">{projectName}</Link>
+        <Link to={`/${slug}`} className="text-xl font-bold">{projectName}</Link>
         <div className="flex flex-wrap items-center gap-2">
           {user && (
             <>
-              <Link to="/mis-turnos" className={baseBtn}>Mis Turnos</Link>
-              <Link to="/mi-perfil" className={baseBtn}>Mi Perfil</Link>
+              <Link to={`/${slug}/mis-turnos`} className={baseBtn}>Mis Turnos</Link>
+              <Link to={`/${slug}/mi-perfil`} className={baseBtn}>Mi Perfil</Link>
               {isTenantAdmin && (
-                <Link to="/admin" className={baseBtn}>Panel Admin</Link>
+                <Link to={`/${slug}/admin`} className={baseBtn}>Panel Admin</Link>
               )}
             </>
           )}
@@ -68,26 +76,26 @@ function AppContent() {
               Logout
             </button>
           ) : (
-            <Link to="/login" className={baseBtn}>Login</Link>
+            <Link to={`/${slug}/login`} className={baseBtn}>Login</Link>
           )}
         </div>
       </header>
 
       <main className="p-4">
         <Routes>
-          <Route path="/" element={<ServiceListScreen />} />
-          <Route path="/summary" element={<ServiceSummaryScreen />} />
-          <Route path="/stylists" element={<StylistSelectionScreen />} />
+          <Route index element={<ServiceListScreen />} />
+          <Route path="summary" element={<ServiceSummaryScreen />} />
+          <Route path="stylists" element={<StylistSelectionScreen />} />
 
           <Route
-            path="/login"
-            element={user ? <Navigate to="/" replace /> : <Login />}
+            path="login"
+            element={user ? <Navigate to="" replace /> : <Login />}
           />
 
-          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="reset-password" element={<PasswordReset />} />
 
           <Route
-            path="/professional"
+            path="professional"
             element={
               <RequireAuth>
                 <ProfessionalCalendarScreen />
@@ -96,7 +104,7 @@ function AppContent() {
           />
 
           <Route
-            path="/mis-turnos"
+            path="mis-turnos"
             element={
               <RequireAuth>
                 <MyAppointmentsScreen />
@@ -105,7 +113,7 @@ function AppContent() {
           />
 
           <Route
-            path="/mi-perfil"
+            path="mi-perfil"
             element={
               <RequireAuth>
                 <MyProfileScreen />
@@ -114,19 +122,19 @@ function AppContent() {
           />
 
           <Route
-            path="/admin/*"
+            path="admin/*"
             element={
               <RequireAuth>
                 {isTenantAdmin ? (
                   <AdminRouter />
                 ) : (
-                  <Navigate to="/" replace />
+                  <Navigate to="" replace />
                 )}
               </RequireAuth>
             }
           />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="" replace />} />
         </Routes>
       </main>
     </>

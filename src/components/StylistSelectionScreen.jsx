@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { useTenant } from '../TenantProvider';
 
 export default function StylistSelectionScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const service = state?.service;
+  const { slug } = useTenant();
 
   // Si no hay servicio, volvemos al listado
   useEffect(() => {
     if (!service) {
-      navigate('/', { replace: true });
+      navigate(`/${slug}`, { replace: true });
     }
   }, [service, navigate]);
 
@@ -59,7 +61,7 @@ export default function StylistSelectionScreen() {
               </div>
               <button
                 onClick={() =>
-                  navigate('/professional', { state: { service, stylist: st } })
+                  navigate(`/${slug}/professional`, { state: { service, stylist: st } })
                 }
                 className="py-2 px-4 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition"
               >

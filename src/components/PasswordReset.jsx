@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import { Link } from 'react-router-dom';
+import { useTenant } from '../TenantProvider';
 
 export default function PasswordReset() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const { slug } = useTenant();
 
   const handleReset = async e => {
     e.preventDefault();
@@ -69,7 +71,7 @@ export default function PasswordReset() {
         </button>
       </form>
       <div className="text-center text-sm">
-        <Link to="/login" className="text-blue-500 underline">
+        <Link to={`/${slug}/login`} className="text-blue-500 underline">
           Volver al login
         </Link>
       </div>
