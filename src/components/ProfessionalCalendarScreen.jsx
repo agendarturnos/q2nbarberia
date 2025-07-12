@@ -13,12 +13,13 @@ import {
   isBefore,
 } from 'date-fns';
 import { es } from 'date-fns/locale';
-const COMPANY_ID  = import.meta.env.VITE_COMPANY_ID;
+import { useTenant } from '../TenantProvider';
 
 export default function ProfessionalCalendarScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const { stylist, service, from, datetime } = state || {};
+  const { companyId, slug } = useTenant();
 
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export default function ProfessionalCalendarScreen() {
   // Cargar citas existentes
   useEffect(() => {
     if (!stylist || !service) {
-      navigate('/', { replace: true });
+      navigate(`/${slug}`, { replace: true });
       return;
     }
     getDocs(collection(db, 'appointments'))
@@ -139,7 +140,7 @@ export default function ProfessionalCalendarScreen() {
   const handleSlotClick = useCallback(
     async dt => {
       if (!auth.currentUser) {
-        navigate('/login', {
+        navigate(`/${slug}/login`, {
           state: {
             from: 'booking',
             stylist,
@@ -167,10 +168,10 @@ export default function ProfessionalCalendarScreen() {
           clientEmail: auth.currentUser.email,
           datetime: dt.toISOString(),
           duration: service.duration,
-          companyId: COMPANY_ID,
+          companyId: companyId,
         });
         alert('Turno reservado correctamente.');
-        navigate('/');
+        navigate(`/${slug}`);
       } catch (error) {
         console.error('Error guardando turno:', error);
         alert('Ocurrió un error al reservar el turno. Intenta nuevamente.');

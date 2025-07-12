@@ -1,17 +1,19 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTenant } from '../TenantProvider';
 
 export default function ServiceSummaryScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const service = state?.service;
+  const { slug } = useTenant();
 
   if (!service) {
     return (
       <div className="p-4 text-center">
         <p className="text-gray-500 mb-4">No se encontró el servicio seleccionado.</p>
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate(`/${slug}`)}
           className="text-blue-500 underline"
         >
           Volver al menú
@@ -29,7 +31,7 @@ export default function ServiceSummaryScreen() {
         <p className="text-gray-600 mb-2">Seña: ${service.senia}</p>
         <p className="text-gray-600 mb-6">Duración: {service.duration} min</p>
         <button
-          onClick={() => navigate('/stylists', { state: { service } })}
+          onClick={() => navigate(`/${slug}/stylists`, { state: { service } })}
           className="mt-auto w-full py-2 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition"
         >
           Elegir Profesional

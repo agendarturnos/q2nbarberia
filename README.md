@@ -23,11 +23,9 @@ cd functions && npm install && cd ..
 
 ## Configuración de variables de entorno
 
-Crea un archivo `.env` en la raíz con tus valores de Firebase y los identificadores propios de la aplicación:
+Crea un archivo `.env` en la raíz con tus valores de Firebase:
 
 ```dotenv
-VITE_PROJECT_NAME=Mi Barberia
-VITE_COMPANY_ID=tu_compania
 VITE_FIREBASE_API_KEY=XXXX
 VITE_FIREBASE_AUTH_DOMAIN=XXXX
 VITE_FIREBASE_PROJECT_ID=XXXX
@@ -35,6 +33,18 @@ VITE_FIREBASE_STORAGE_BUCKET=XXXX
 VITE_FIREBASE_MESSAGING_SENDER_ID=XXXX
 VITE_FIREBASE_APP_ID=XXXX
 ```
+
+### Configuración de clientes (tenants)
+
+Crea una colección `tenants` en Firestore donde cada documento represente un cliente. El ID del documento será el *slug* utilizado en la URL y debe incluir al menos los campos `companyId` y `projectName`:
+
+```text
+tenants/
+  barberia1 { companyId: "c1", projectName: "Barbería 1" }
+  barberia2 { companyId: "c2", projectName: "Barbería 2" }
+```
+
+Al acceder a `agendarturnos.ar/{cliente}` la aplicación cargará estos datos y los usará para filtrar la información.
 
 Si usas las funciones de envío de correos configura SendGrid:
 

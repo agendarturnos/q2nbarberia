@@ -1,6 +1,7 @@
 // src/components/Login.jsx
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useTenant } from '../TenantProvider';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword
@@ -12,7 +13,8 @@ import { COUNTRY_CODES, AREA_CODES } from '../data/phone';
 export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
+  const { slug } = useTenant();
+  const from = location.state?.from?.pathname || `/${slug}`;
   const fromState = location.state?.from?.state || {};
 
   const [email,     setEmail    ] = useState('');
@@ -145,7 +147,7 @@ export default function Login() {
         >
           {isRegister ? 'Ya tengo cuenta' : 'Crear cuenta'}
         </button>
-         <Link to="/reset-password" className="text-blue-500 underline">
+         <Link to={`/${slug}/reset-password`} className="text-blue-500 underline">
            Recuperar Contraseña
          </Link>
       </div>

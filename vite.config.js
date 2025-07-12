@@ -3,7 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/q2nbarberia/',
+  base: '/',
   plugins: [react()],
     define: {
     'process.env.VITE_PROJECT_NAME': JSON.stringify(process.env.VITE_PROJECT_NAME)

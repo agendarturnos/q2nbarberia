@@ -12,10 +12,10 @@ import {
   onSnapshot
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-
-const COMPANY_ID = import.meta.env.VITE_COMPANY_ID;
+import { useTenant } from '../TenantProvider';
 
 export default function AdminRouter() {
+  const { companyId } = useTenant();
   const [services, setServices]       = useState([]);
   const [stylists, setStylists]       = useState([]);
   const [appointments, setAppointments] = useState([]);
@@ -25,7 +25,7 @@ export default function AdminRouter() {
     // Query compartido: todos filtrados por companyId
     const qServices = query(
       collection(db, 'services'),
-      where('companyId', '==', COMPANY_ID)
+      where('companyId', '==', companyId)
     );
     const unsubServices = onSnapshot(qServices, snap =>
       setServices(snap.docs.map(d => ({ id: d.id, ...d.data() })))
@@ -33,7 +33,7 @@ export default function AdminRouter() {
 
     const qStylists = query(
       collection(db, 'stylists'),
-      where('companyId', '==', COMPANY_ID)
+      where('companyId', '==', companyId)
     );
     const unsubStylists = onSnapshot(qStylists, snap =>
       setStylists(snap.docs.map(d => ({ id: d.id, ...d.data() })))
@@ -41,7 +41,7 @@ export default function AdminRouter() {
 
     const qAppointments = query(
       collection(db, 'appointments'),
-      where('companyId', '==', COMPANY_ID)
+      where('companyId', '==', companyId)
     );
     const unsubAppointments = onSnapshot(qAppointments, snap => {
       const today = new Date();
@@ -55,7 +55,7 @@ export default function AdminRouter() {
 
     const qCategories = query(
       collection(db, 'categories'),
-      where('companyId', '==', COMPANY_ID)
+      where('companyId', '==', companyId)
     );
     const unsubCategories = onSnapshot(qCategories, snap =>
       setCategories(snap.docs.map(d => ({ id: d.id, ...d.data() })))
@@ -73,13 +73,13 @@ export default function AdminRouter() {
   const handleAddService = async data => {
     await addDoc(collection(db, 'services'), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleUpdateService = async (id, data) => {
     await updateDoc(doc(db, 'services', id), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleDeleteService = async id => {
@@ -89,13 +89,13 @@ export default function AdminRouter() {
   const handleAddProfessional = async data => {
     await addDoc(collection(db, 'stylists'), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleUpdateProfessional = async (id, data) => {
     await updateDoc(doc(db, 'stylists', id), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleDeleteProfessional = async id => {
@@ -105,13 +105,13 @@ export default function AdminRouter() {
   const handleAddCategory = async data => {
     await addDoc(collection(db, 'categories'), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleUpdateCategory = async (id, data) => {
     await updateDoc(doc(db, 'categories', id), {
       ...data,
-      companyId: COMPANY_ID
+      companyId: companyId
     });
   };
   const handleDeleteCategory = async id => {

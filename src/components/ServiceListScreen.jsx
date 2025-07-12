@@ -3,22 +3,20 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-
-const COMPANY_ID = import.meta.env.VITE_COMPANY_ID;
+import { useTenant } from '../TenantProvider';
 
 export default function ServiceListScreen() {
+  const { companyId, slug } = useTenant();
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCat, setSelectedCat] = useState('');
 
-  // Nombre del proyecto (opcional)
-  const projectName = import.meta.env.VITE_PROJECT_NAME || 'Servicios';
 
   useEffect(() => {
     async function fetchServices() {
       const q = query(
         collection(db, 'services'),
-        where('companyId', '==', COMPANY_ID)
+        where('companyId', '==', companyId)
       );
       const snap = await getDocs(q);
       setServices(snap.docs.map(d => ({ id: d.id, ...d.data() })));
@@ -30,7 +28,7 @@ export default function ServiceListScreen() {
     async function fetchCategories() {
       const q = query(
         collection(db, 'categories'),
-        where('companyId', '==', COMPANY_ID)
+        where('companyId', '==', companyId)
       );
       const snap = await getDocs(q);
       setCategories(snap.docs.map(d => ({ id: d.id, ...d.data() })));
@@ -91,7 +89,7 @@ export default function ServiceListScreen() {
               Duración: {svc.duration} min
             </p>
             <Link
-              to="/summary"
+              to={`/${slug}/summary`}
               state={{ service: svc }}
               className="mt-auto w-full py-2 border border-blue-500 text-blue-500 rounded-full text-center hover:bg-blue-500 hover:text-white transition"
             >
