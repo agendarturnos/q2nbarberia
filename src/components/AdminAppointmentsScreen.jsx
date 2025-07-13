@@ -10,10 +10,12 @@ import {
   doc
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { useTenant } from '../TenantProvider';
 
 export default function AdminAppointmentsScreen({ appointments }) {
   const [selectedDate, setSelectedDate] = useState(null);
   const [users, setUsers] = useState([]);
+  const { usaConfirmacionSenia } = useTenant() || {};
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, 'users'), snap =>
@@ -79,7 +81,9 @@ export default function AdminAppointmentsScreen({ appointments }) {
                 <th className="px-4 py-2 text-left">Servicio</th>
                 <th className="px-4 py-2 text-left">Cliente</th>
                 <th className="px-4 py-2 text-left">Teléfono</th>
-                <th className="px-4 py-2 text-left">Seña</th>
+                {usaConfirmacionSenia && (
+                  <th className="px-4 py-2 text-left">Seña</th>
+                )}
                 <th className="px-4 py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -121,13 +125,15 @@ export default function AdminAppointmentsScreen({ appointments }) {
                         '—'
                       )}
                     </td>
-                    <td className="px-4 py-2">
-                      {appt.depositConfirmed
-                        ? <span className="text-green-600">Confirmada</span>
-                        : <span className="text-red-600">Pendiente</span>}
-                    </td>
+                    {usaConfirmacionSenia && (
+                      <td className="px-4 py-2">
+                        {appt.depositConfirmed
+                          ? <span className="text-green-600">Confirmada</span>
+                          : <span className="text-red-600">Pendiente</span>}
+                      </td>
+                    )}
                     <td className="px-4 py-2 text-center space-x-2">
-                      {!appt.depositConfirmed && (
+                      {usaConfirmacionSenia && !appt.depositConfirmed && (
                         <button
                           onClick={() => handleConfirmDeposit(appt)}
                           className="px-2 py-1 bg-yellow-500 text-white rounded text-xs hover:bg-yellow-600 transition"
@@ -162,7 +168,7 @@ export default function AdminAppointmentsScreen({ appointments }) {
                 <div className="flex justify-between">
                   <span className="font-semibold">{format(dt, 'HH:mm')}</span>
                   <div className="flex space-x-2">
-                    {!appt.depositConfirmed && (
+                    {usaConfirmacionSenia && !appt.depositConfirmed && (
                       <button
                         onClick={() => handleConfirmDeposit(appt)}
                         className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs hover:bg-yellow-600 transition"
@@ -206,12 +212,14 @@ export default function AdminAppointmentsScreen({ appointments }) {
                     <span>—</span>
                   )}
                 </p>
-                <p className="text-sm">
-                  <strong>Seña:</strong>{' '}
-                  {appt.depositConfirmed
-                    ? <span className="text-green-600">Confirmada</span>
-                    : <span className="text-red-600">Pendiente</span>}
-                </p>
+                {usaConfirmacionSenia && (
+                  <p className="text-sm">
+                    <strong>Seña:</strong>{' '}
+                    {appt.depositConfirmed
+                      ? <span className="text-green-600">Confirmada</span>
+                      : <span className="text-red-600">Pendiente</span>}
+                  </p>
+                )}
               </div>
             );
           })}

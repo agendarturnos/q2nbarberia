@@ -11,12 +11,14 @@ import {
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { db, auth } from '../firebaseConfig';
+import { useTenant } from '../TenantProvider';
 
 export default function MyAppointmentsScreen() {
   const [appointments, setAppointments] = useState([]);
   const [stylists, setStylists] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { usaConfirmacionSenia } = useTenant() || {};
 
   // Fetch my appointments
   useEffect(() => {
@@ -150,14 +152,14 @@ export default function MyAppointmentsScreen() {
                   <p className="text-gray-600 text-sm">Con {a.stylistName}</p>
 
                   {/* Valor de la seña (tomado del servicio) */}
-                  {depositValue != null && (
+                  {usaConfirmacionSenia && depositValue != null && (
                     <p className="text-gray-700 text-sm">
                       Valor de la seña: ${depositValue}
                     </p>
                   )}
 
                   {/* Alias de pago */}
-                  {stylistAlias && (
+                  {usaConfirmacionSenia && stylistAlias && (
                     <div className="flex items-center text-sm text-gray-700">
                       <span>Alias de pago: {stylistAlias}</span>
                       <button
@@ -184,17 +186,19 @@ export default function MyAppointmentsScreen() {
                     {format(apptDate, "PPP 'a las' p", { locale: es })}
                   </p>
 
-                  <div className="flex space-x-2">
-                    <span
-                      className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
-                        depositConfirmed
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
-                      Seña {depositConfirmed ? 'Confirmada' : 'Pendiente'}
-                    </span>
-                  </div>
+                  {usaConfirmacionSenia && (
+                    <div className="flex space-x-2">
+                      <span
+                        className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                          depositConfirmed
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                        }`}
+                      >
+                        Seña {depositConfirmed ? 'Confirmada' : 'Pendiente'}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-3 sm:mt-0 flex flex-col sm:flex-row sm:items-center sm:space-x-2">
