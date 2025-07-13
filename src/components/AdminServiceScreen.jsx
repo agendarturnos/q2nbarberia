@@ -1,5 +1,6 @@
 // src/components/AdminServiceScreen.jsx
 import React, { useState, useEffect } from 'react';
+import { useTenant } from '../TenantProvider';
 
 export default function AdminServiceScreen({
   services,
@@ -8,6 +9,7 @@ export default function AdminServiceScreen({
   onUpdateService,
   onDeleteService
 }) {
+  const { usaConfirmacionSenia } = useTenant() || {};
   const initialForm = {
     id: '',
     name: '',
@@ -49,7 +51,7 @@ export default function AdminServiceScreen({
       description: form.description.trim(),
       price: Number(form.price),
       duration: Number(form.duration),
-      senia: Number(form.senia),
+      senia: usaConfirmacionSenia ? Number(form.senia) : 0,
       categoryId: form.categoryId
     };
     if (form.id) {
@@ -109,14 +111,16 @@ export default function AdminServiceScreen({
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <input
-            name="senia"
-            type="number"
-            value={form.senia}
-            onChange={handleChange}
-            placeholder="Seña ($)"
-            className="border p-2 rounded w-full"
-          />
+          {usaConfirmacionSenia && (
+            <input
+              name="senia"
+              type="number"
+              value={form.senia}
+              onChange={handleChange}
+              placeholder="Seña ($)"
+              className="border p-2 rounded w-full"
+            />
+          )}
           <select
             name="categoryId"
             value={form.categoryId}
@@ -153,9 +157,11 @@ export default function AdminServiceScreen({
                 {categories.find(c => c.id === svc.categoryId)?.name || '—'}
               </p>
               <p className="text-sm text-gray-600">Precio: ${svc.price}</p>
-              <p className="text-sm text-gray-600">
-                Seña: ${svc.senia ?? 0}
-              </p>
+              {usaConfirmacionSenia && (
+                <p className="text-sm text-gray-600">
+                  Seña: ${svc.senia ?? 0}
+                </p>
+              )}
               <p className="text-sm text-gray-600">
                 Duración: {svc.duration} min
               </p>
