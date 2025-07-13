@@ -6,7 +6,7 @@ export default function ServiceSummaryScreen() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const service = state?.service;
-  const { slug } = useTenant();
+  const { usaConfirmacionSenia, slug } = useTenant();
 
   if (!service) {
     return (
@@ -28,7 +28,7 @@ export default function ServiceSummaryScreen() {
       <div className="bg-white rounded-2xl shadow p-6 flex flex-col">
         <h3 className="text-lg font-semibold mb-4">{service.name}</h3>
         <p className="text-gray-600 mb-2">Precio: ${service.price}</p>
-        <p className="text-gray-600 mb-2">Seña: ${service.senia}</p>
+        <p className="text-gray-600 mb-2">{usaConfirmacionSenia && ` Seña: $${service.senia}`}</p>
         <p className="text-gray-600 mb-6">Duración: {service.duration} min</p>
         <button
           onClick={() => navigate(`/${slug}/stylists`, { state: { service } })}
