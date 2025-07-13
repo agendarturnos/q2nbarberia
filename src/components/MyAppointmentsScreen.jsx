@@ -136,7 +136,6 @@ export default function MyAppointmentsScreen() {
             const apptDate = new Date(a.datetime);
             const canCancel = apptDate - new Date() >= 1000 * 60 * 60 * 24;
             const depositConfirmed = !!a.depositConfirmed;
-            const paymentConfirmed = !!a.paymentConfirmed;
             const stylistAlias = aliasMap[a.stylistId];
             const service = serviceMap[a.serviceId] || {};
             const depositValue = service.senia;
