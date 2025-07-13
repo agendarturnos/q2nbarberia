@@ -30,9 +30,6 @@
       const base = '';
       const path = window.location.pathname.replace(new RegExp('^' + base), '');
       const segments = path.split('/').filter(Boolean);
-      if (segments.length === 0) {
-        window.location.replace(base + '/landing');
-      }
     </script>
   </head>
   <body>

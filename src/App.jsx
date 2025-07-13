@@ -29,7 +29,6 @@ export default function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/landing" element={<Landing />} />
           <Route
             path="/:tenant/*"
             element={
@@ -38,7 +37,6 @@ export default function App() {
               </TenantProvider>
             }
           />
-          <Route path="*" element={<Navigate to="/landing" replace />} />
         </Routes>
       </Router>
     </AuthProvider>
