@@ -22,12 +22,14 @@ import MyAppointmentsScreen from './components/MyAppointmentsScreen';
 import MyProfileScreen from './components/MyProfileScreen';
 import AdminRouter from './routes/AdminRouter';
 import Login from './components/Login';
+import Landing from './components/Landing';
 
 export default function App() {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          <Route path="/landing" element={<Landing />} />
           <Route
             path="/:tenant/*"
             element={
@@ -36,7 +38,7 @@ export default function App() {
               </TenantProvider>
             }
           />
-          <Route path="*" element={<Navigate to="/landing.html" replace />} />
+          <Route path="*" element={<Navigate to="/landing" replace />} />
         </Routes>
       </Router>
     </AuthProvider>
