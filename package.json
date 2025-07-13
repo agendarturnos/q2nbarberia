@@ -2,7 +2,7 @@
   "name": "nail-salon-app",
   "version": "1.0.0",
   "main": "src/main.jsx",
-  "homepage": "https://agendarturnos.github.io/q2nbarberia",
+  "homepage": "https://agendarturnos.github.io/",
   "scripts": {
     "start": "vite",
     "build": "vite build",

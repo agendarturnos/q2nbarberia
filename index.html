@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema de turnos</title>
     <script>
-      const segments = window.location.pathname.split('/').filter(Boolean);
+      const base = '';
+      const path = window.location.pathname.replace(new RegExp('^' + base), '');
+      const segments = path.split('/').filter(Boolean);
       if (segments.length === 0) {
-        window.location.replace('/landing.html');
+        window.location.replace(base + '/landing.html');
       }
     </script>
   </head>
