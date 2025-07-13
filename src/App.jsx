@@ -36,7 +36,7 @@ export default function App() {
               </TenantProvider>
             }
           />
-          <Route path="*" element={<Navigate to="/landing" replace />} />
+          <Route path="*" element={<Navigate to="/landing.html" replace />} />
         </Routes>
       </Router>
     </AuthProvider>
