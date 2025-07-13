@@ -6,7 +6,7 @@ import { db } from '../firebaseConfig';
 import { useTenant } from '../TenantProvider';
 
 export default function ServiceListScreen() {
-  const { companyId, slug } = useTenant();
+  const { companyId, slug, usaConfirmacionSenia } = useTenant();
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCat, setSelectedCat] = useState('');
@@ -83,7 +83,8 @@ export default function ServiceListScreen() {
             <h3 className="text-lg font-semibold mb-1 text-center">{svc.name}</h3>
             <p className="mb-2 text-center">{svc.description}</p>
             <p className="text-gray-600 text-center">
-              Precio: ${svc.price} – Seña: ${svc.senia}
+              Precio: ${svc.price}
+              {usaConfirmacionSenia && ` – Seña: ${svc.senia}`}
             </p>
             <p className="text-gray-600 mb-4 text-center">
               Duración: {svc.duration} min
