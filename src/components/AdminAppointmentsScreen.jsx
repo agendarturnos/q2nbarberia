@@ -44,11 +44,6 @@ export default function AdminAppointmentsScreen({ appointments }) {
     alert('Seña confirmada');
   };
 
-  const handleConfirmPayment = async appt => {
-    if (!window.confirm('¿Confirmar pago completo?')) return;
-    await updateDoc(doc(db, 'appointments', appt.id), { paymentConfirmed: true });
-    alert('Pago confirmado');
-  };
 
   const handleCancel = async appt => {
     if (!window.confirm('¿Estás seguro de cancelar este turno?')) return;
@@ -85,7 +80,6 @@ export default function AdminAppointmentsScreen({ appointments }) {
                 <th className="px-4 py-2 text-left">Cliente</th>
                 <th className="px-4 py-2 text-left">Teléfono</th>
                 <th className="px-4 py-2 text-left">Seña</th>
-                <th className="px-4 py-2 text-left">Pago</th>
                 <th className="px-4 py-2 text-center">Acciones</th>
               </tr>
             </thead>
@@ -132,11 +126,6 @@ export default function AdminAppointmentsScreen({ appointments }) {
                         ? <span className="text-green-600">Confirmada</span>
                         : <span className="text-red-600">Pendiente</span>}
                     </td>
-                    <td className="px-4 py-2">
-                      {appt.paymentConfirmed
-                        ? <span className="text-green-600">Confirmado</span>
-                        : <span className="text-red-600">Pendiente</span>}
-                    </td>
                     <td className="px-4 py-2 text-center space-x-2">
                       {!appt.depositConfirmed && (
                         <button
@@ -144,14 +133,6 @@ export default function AdminAppointmentsScreen({ appointments }) {
                           className="px-2 py-1 bg-yellow-500 text-white rounded text-xs hover:bg-yellow-600 transition"
                         >
                           Confirmar Seña
-                        </button>
-                      )}
-                      {appt.depositConfirmed && !appt.paymentConfirmed && (
-                        <button
-                          onClick={() => handleConfirmPayment(appt)}
-                          className="px-2 py-1 bg-blue-500 text-white rounded text-xs hover:bg-blue-600 transition"
-                        >
-                          Confirmar Pago
                         </button>
                       )}
                       <button
