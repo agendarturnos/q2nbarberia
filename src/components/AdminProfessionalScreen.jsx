@@ -16,6 +16,8 @@ export default function AdminProfessionalScreen({
   const [schedule, setSchedule] = useState({});
   const [exceptions, setExceptions] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [copyFrom, setCopyFrom] = useState(null);
+  const [copyTargets, setCopyTargets] = useState([]);
 
   useEffect(() => {
     if (editingId) {
@@ -24,7 +26,14 @@ export default function AdminProfessionalScreen({
         setName(prof.name);
         setAlias(prof.alias || '');
         setSelected(prof.specialties || []);
-        setSchedule(prof.schedule || {});
+        setSchedule(
+          Object.fromEntries(
+            Object.entries(prof.schedule || {}).map(([d, val]) => [
+              d,
+              Array.isArray(val) ? val : [val]
+            ])
+          )
+        );
         setExceptions(prof.exceptions || []);
       }
     }
@@ -40,15 +49,63 @@ export default function AdminProfessionalScreen({
     setSchedule(sc => {
       const copy = { ...sc };
       if (copy[day]) delete copy[day];
-      else copy[day] = { from: '', to: '' };
+      else copy[day] = [{ from: '', to: '' }];
       return copy;
     });
   };
 
-  const setTime = (day, field, value) => {
+  const addBlock = day => {
     setSchedule(sc => ({
       ...sc,
-      [day]: { ...sc[day], [field]: value }
+      [day]: [...(sc[day] || []), { from: '', to: '' }]
+    }));
+  };
+
+  const removeBlock = (day, idx) => {
+    setSchedule(sc => ({
+      ...sc,
+      [day]: sc[day].filter((_, i) => i !== idx)
+    }));
+  };
+
+  const startCopy = day => {
+    setCopyFrom(day);
+    setCopyTargets([]);
+  };
+
+  const toggleCopyTarget = target => {
+    setCopyTargets(ts =>
+      ts.includes(target) ? ts.filter(t => t !== target) : [...ts, target]
+    );
+  };
+
+  const confirmCopy = () => {
+    if (!copyFrom || copyTargets.length === 0) {
+      cancelCopy();
+      return;
+    }
+    setSchedule(sc => {
+      const blocks = (sc[copyFrom] || []).map(b => ({ ...b }));
+      const copy = { ...sc };
+      copyTargets.forEach(t => {
+        copy[t] = blocks.map(b => ({ ...b }));
+      });
+      return copy;
+    });
+    cancelCopy();
+  };
+
+  const cancelCopy = () => {
+    setCopyFrom(null);
+    setCopyTargets([]);
+  };
+
+  const setTime = (day, idx, field, value) => {
+    setSchedule(sc => ({
+      ...sc,
+      [day]: sc[day].map((b, i) =>
+        i === idx ? { ...b, [field]: value } : b
+      )
     }));
   };
 
@@ -137,29 +194,98 @@ export default function AdminProfessionalScreen({
           <h3 className="font-medium mb-2">Horarios de trabajo</h3>
           <div className="space-y-2">
             {daysOfWeek.map(day => (
-              <div key={day} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={Boolean(schedule[day])}
-                  onChange={() => toggleDay(day)}
-                />
-                <span className="w-20">{day}</span>
-                {schedule[day] && (
-                  <>
-                    <input
-                      type="time"
-                      value={schedule[day].from}
-                      onChange={e => setTime(day, 'from', e.target.value)}
-                      className="border p-1 rounded"
-                    />
-                    <span>a</span>
-                    <input
-                      type="time"
-                      value={schedule[day].to}
-                      onChange={e => setTime(day, 'to', e.target.value)}
-                      className="border p-1 rounded"
-                    />
-                  </>
+              <div key={day} className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(schedule[day])}
+                    onChange={() => toggleDay(day)}
+                  />
+                  <span className="w-20">{day}</span>
+                  {schedule[day] && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => addBlock(day)}
+                        className="bg-green-500 text-white w-6 h-6 rounded-full flex items-center justify-center"
+                        title="Agregar bloque"
+                      >
+                        +
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => startCopy(day)}
+                        className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center ml-1"
+                        title="Copiar a otros"
+                      >
+                        ⎘
+                      </button>
+                    </>
+                  )}
+                </div>
+                {schedule[day] &&
+                  schedule[day].map((block, i) => (
+                    <div key={i} className="flex items-center space-x-2 ml-8">
+                      <input
+                        type="time"
+                        value={block.from}
+                        onChange={e => setTime(day, i, 'from', e.target.value)}
+                        className="border p-1 rounded"
+                      />
+                      <span>a</span>
+                      <input
+                        type="time"
+                        value={block.to}
+                        onChange={e => setTime(day, i, 'to', e.target.value)}
+                        className="border p-1 rounded"
+                      />
+                      {schedule[day].length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeBlock(day, i)}
+                          className="text-red-500"
+                        >
+                          x
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                {copyFrom === day && (
+                  <div className="ml-8 bg-gray-100 p-2 rounded shadow space-y-2">
+                    <div className="flex flex-wrap gap-2">
+                      {daysOfWeek
+                        .filter(d => d !== day)
+                        .map(other => (
+                          <label
+                            key={other}
+                            className="flex items-center space-x-1"
+                          >
+                            <input
+                              type="checkbox"
+                              checked={copyTargets.includes(other)}
+                              onChange={() => toggleCopyTarget(other)}
+                            />
+                            <span>{other}</span>
+                          </label>
+                        ))}
+                    </div>
+                    <div className="flex space-x-2">
+                      <button
+                        type="button"
+                        onClick={confirmCopy}
+                        className="bg-blue-500 text-white px-2 py-1 rounded"
+                      >
+                        Copiar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={cancelCopy}
+                        className="bg-gray-300 px-2 py-1 rounded"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
