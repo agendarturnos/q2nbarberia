@@ -24,7 +24,14 @@ export default function AdminProfessionalScreen({
         setName(prof.name);
         setAlias(prof.alias || '');
         setSelected(prof.specialties || []);
-        setSchedule(prof.schedule || {});
+        setSchedule(
+          Object.fromEntries(
+            Object.entries(prof.schedule || {}).map(([d, val]) => [
+              d,
+              Array.isArray(val) ? val : [val]
+            ])
+          )
+        );
         setExceptions(prof.exceptions || []);
       }
     }
@@ -40,15 +47,51 @@ export default function AdminProfessionalScreen({
     setSchedule(sc => {
       const copy = { ...sc };
       if (copy[day]) delete copy[day];
-      else copy[day] = { from: '', to: '' };
+      else copy[day] = [{ from: '', to: '' }];
       return copy;
     });
   };
 
-  const setTime = (day, field, value) => {
+  const addBlock = day => {
     setSchedule(sc => ({
       ...sc,
-      [day]: { ...sc[day], [field]: value }
+      [day]: [...(sc[day] || []), { from: '', to: '' }]
+    }));
+  };
+
+  const removeBlock = (day, idx) => {
+    setSchedule(sc => ({
+      ...sc,
+      [day]: sc[day].filter((_, i) => i !== idx)
+    }));
+  };
+
+  const copyDay = day => {
+    const targetInput = window.prompt(
+      `Copiar horario de ${day} a qué días? (Ej: Martes,Miercoles)`
+    );
+    if (!targetInput) return;
+    const targets = targetInput
+      .split(',')
+      .map(t => t.trim())
+      .filter(t => daysOfWeek.includes(t) && t !== day);
+    if (targets.length === 0) return;
+    setSchedule(sc => {
+      const blocks = (sc[day] || []).map(b => ({ ...b }));
+      const copy = { ...sc };
+      targets.forEach(t => {
+        copy[t] = blocks.map(b => ({ ...b }));
+      });
+      return copy;
+    });
+  };
+
+  const setTime = (day, idx, field, value) => {
+    setSchedule(sc => ({
+      ...sc,
+      [day]: sc[day].map((b, i) =>
+        i === idx ? { ...b, [field]: value } : b
+      )
     }));
   };
 
@@ -137,30 +180,61 @@ export default function AdminProfessionalScreen({
           <h3 className="font-medium mb-2">Horarios de trabajo</h3>
           <div className="space-y-2">
             {daysOfWeek.map(day => (
-              <div key={day} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={Boolean(schedule[day])}
-                  onChange={() => toggleDay(day)}
-                />
-                <span className="w-20">{day}</span>
-                {schedule[day] && (
-                  <>
-                    <input
-                      type="time"
-                      value={schedule[day].from}
-                      onChange={e => setTime(day, 'from', e.target.value)}
-                      className="border p-1 rounded"
-                    />
-                    <span>a</span>
-                    <input
-                      type="time"
-                      value={schedule[day].to}
-                      onChange={e => setTime(day, 'to', e.target.value)}
-                      className="border p-1 rounded"
-                    />
-                  </>
-                )}
+              <div key={day} className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(schedule[day])}
+                    onChange={() => toggleDay(day)}
+                  />
+                  <span className="w-20">{day}</span>
+                  {schedule[day] && (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => addBlock(day)}
+                        className="text-green-600"
+                      >
+                        +
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => copyDay(day)}
+                        className="text-blue-600 ml-1"
+                        title="Copiar a otros"
+                      >
+                        ⎘
+                      </button>
+                    </>
+                  )}
+                </div>
+                {schedule[day] &&
+                  schedule[day].map((block, i) => (
+                    <div key={i} className="flex items-center space-x-2 ml-8">
+                      <input
+                        type="time"
+                        value={block.from}
+                        onChange={e => setTime(day, i, 'from', e.target.value)}
+                        className="border p-1 rounded"
+                      />
+                      <span>a</span>
+                      <input
+                        type="time"
+                        value={block.to}
+                        onChange={e => setTime(day, i, 'to', e.target.value)}
+                        className="border p-1 rounded"
+                      />
+                      {schedule[day].length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeBlock(day, i)}
+                          className="text-red-500"
+                        >
+                          x
+                        </button>
+                      )}
+                    </div>
+                  ))}
               </div>
             ))}
           </div>
