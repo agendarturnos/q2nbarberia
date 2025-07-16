@@ -55,9 +55,6 @@ export default function StylistSelectionScreen() {
             >
               <div>
                 <h3 className="text-lg font-medium">{st.name}</h3>
-                <p className="text-gray-500 text-sm">
-                  Especialidades: {st.specialties.join(', ')}
-                </p>
               </div>
               <button
                 onClick={() =>
