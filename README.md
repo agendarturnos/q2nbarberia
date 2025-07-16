@@ -2,6 +2,12 @@
 
 Aplicación React para gestión de turnos que utiliza Firebase para la autenticación y la base de datos. Incluye funciones en Cloud Functions para tareas programadas y se puede publicar en GitHub Pages.
 
+## Funcionalidades destacadas
+
+- Gestión de profesionales y servicios
+- Horarios con múltiples bloques diarios
+- Copia rápida de horarios de un día a otros desde la pantalla de administración
+
 ## Requisitos
 
 - [Node.js](https://nodejs.org/) 18 o superior.
