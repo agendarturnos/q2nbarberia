@@ -91,46 +91,42 @@ export default function ProfessionalCalendarScreen() {
         return;
       }
 
-      // Horario laboral (uno o más bloques)
-      const blocks = Array.isArray(sched[dayName]) ? sched[dayName] : [sched[dayName]];
+      // Horario laboral
+      const { from, to } = sched[dayName];
+      const [fh, fm] = from.split(':').map(Number);
+      const [th, tm] = to.split(':').map(Number);
+      const dayStart = setMinutes(setHours(date, fh), fm).getTime();
+      const dayEnd = setMinutes(setHours(date, th), tm).getTime();
+
       // Tomamos solo las ventanas de este día
       const occupied = windowsByDate[key] || [];
+
       const slots = [];
+      let cursor = dayStart;
 
-      blocks.forEach(block => {
-        if (!block) return;
-        const [fh, fm] = block.from.split(':').map(Number);
-        const [th, tm] = block.to.split(':').map(Number);
-        const blockStart = setMinutes(setHours(date, fh), fm).getTime();
-        const blockEnd = setMinutes(setHours(date, th), tm).getTime();
-
-        let cursor = blockStart;
-
-        occupied.forEach(win => {
-          if (win.end <= blockStart || win.start >= blockEnd) return;
-          const winStart = Math.max(win.start, blockStart);
-          const winEnd = Math.min(win.end, blockEnd);
-
-          if (cursor + service.duration * 60000 <= winStart) {
-            let slotTime = cursor;
-            while (slotTime + service.duration * 60000 <= winStart) {
-              slots.push(new Date(slotTime));
-              slotTime += service.duration * 60000;
-            }
+      // Recorremos cada ventana ocupada para generar los libres antes y después
+      occupied.forEach(win => {
+        // Si hay espacio libre antes de la ventana
+        if (cursor + service.duration * 60000 <= win.start) {
+          let slotTime = cursor;
+          while (slotTime + service.duration * 60000 <= win.start) {
+            slots.push(new Date(slotTime));
+            slotTime += service.duration * 60000;
           }
-
-          if (winEnd > cursor) {
-            cursor = winEnd;
-          }
-        });
-
-        while (cursor + service.duration * 60000 <= blockEnd) {
-          slots.push(new Date(cursor));
-          cursor += service.duration * 60000;
+        }
+        // Saltamos al fin de la ventana ocupada
+        if (win.end > cursor) {
+          cursor = win.end;
         }
       });
 
-      byDate[key] = slots.sort((a, b) => a - b);
+      // Generamos slots después de la última ventana hasta el cierre
+      while (cursor + service.duration * 60000 <= dayEnd) {
+        slots.push(new Date(cursor));
+        cursor += service.duration * 60000;
+      }
+
+      byDate[key] = slots;
     });
 
     setSlotsByDate(byDate);
