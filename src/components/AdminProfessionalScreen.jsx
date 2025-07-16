@@ -16,6 +16,8 @@ export default function AdminProfessionalScreen({
   const [schedule, setSchedule] = useState({});
   const [exceptions, setExceptions] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [copyFrom, setCopyFrom] = useState('');
+  const [copyTo, setCopyTo] = useState([]);
 
   useEffect(() => {
     if (editingId) {
@@ -60,6 +62,17 @@ export default function AdminProfessionalScreen({
 
   const removeException = date => {
     setExceptions(ex => ex.filter(d => d !== date));
+  };
+
+  const handleCopySchedule = () => {
+    if (!copyFrom || copyTo.length === 0 || !schedule[copyFrom]) return;
+    setSchedule(sc => {
+      const newSc = { ...sc };
+      copyTo.forEach(d => {
+        if (d !== copyFrom) newSc[d] = { ...sc[copyFrom] };
+      });
+      return newSc;
+    });
   };
 
   const resetForm = () => {
@@ -163,6 +176,45 @@ export default function AdminProfessionalScreen({
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        <div className="p-4 bg-gray-50 rounded">
+          <h3 className="font-medium mb-2">Copiar horario</h3>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
+            <select
+              value={copyFrom}
+              onChange={e => setCopyFrom(e.target.value)}
+              className="border p-2 rounded"
+            >
+              <option value="">Desde...</option>
+              {daysOfWeek.map(d => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+            <select
+              multiple
+              value={copyTo}
+              onChange={e =>
+                setCopyTo(Array.from(e.target.selectedOptions, o => o.value))
+              }
+              className="border p-2 rounded flex-1"
+            >
+              {daysOfWeek.map(d => (
+                <option key={d} value={d}>
+                  {d}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              onClick={handleCopySchedule}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-full shadow hover:bg-indigo-700 transition"
+            >
+              Copiar
+            </button>
           </div>
         </div>
 
