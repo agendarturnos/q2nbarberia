@@ -11,7 +11,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useTenant } from '../TenantProvider';
-import TimelineChart from './TimelineChart';
 
 export default function AdminAppointmentsScreen({ appointments }) {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -71,7 +70,6 @@ export default function AdminAppointmentsScreen({ appointments }) {
         <h3 className="text-xl font-semibold mb-4">
           Turnos para {prettyDate}
         </h3>
-        <TimelineChart appointments={list} />
 
         {/* Desktop */}
         <div className="hidden md:block overflow-x-auto">
