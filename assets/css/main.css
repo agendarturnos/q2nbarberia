@@ -1764,3 +1764,58 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+
+/* Minimal navigation style overrides */
+.header {
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+}
+
+.scrolled .header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navmenu ul li {
+  margin: 0 5px;
+}
+
+.navmenu a,
+.navmenu a:focus {
+  padding: 10px 12px;
+  font-size: 15px;
+  color: var(--nav-color);
+  border-radius: 4px;
+}
+
+.navmenu li:hover > a,
+.navmenu .active,
+.navmenu .active:focus {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--nav-hover-color);
+}
+
+.header .btn-getstarted,
+.header .btn-getstarted:focus {
+  border: 1px solid var(--accent-color);
+  background-color: transparent;
+  color: var(--accent-color);
+  padding: 6px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.header .btn-getstarted:hover,
+.header .btn-getstarted:focus:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+/* Simple dropdown tweaks */
+.dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown[open] > summary {
+  background-color: rgba(0, 0, 0, 0.05);
+}
