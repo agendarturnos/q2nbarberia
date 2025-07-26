@@ -58,10 +58,10 @@ export default function TimelineChart({ appointments, userMap = {} }) {
   const width = totalMinutes * pxPerMinute;
 
   const offset = d => differenceInMinutes(d, start) * pxPerMinute;
-  const height = 48 + 32;
+  const height = 48 + 52;
 
   return (
-    <div className="overflow-x-auto mb-6">
+    <div className="overflow-x-auto mb-6 p-4">
       <div className="relative" style={{ width, height }}>
         {halfHours.map(h => (
           <div

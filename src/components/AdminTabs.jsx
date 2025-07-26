@@ -23,7 +23,7 @@ export default function AdminTabs({
   const [tab, setTab] = useState('services');
 
   return (
-    <div className="p-4">
+    <div className="p-2">
       <div className="flex flex-wrap space-x-2 mb-4">
         <button
           onClick={() => setTab('services')}

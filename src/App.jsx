@@ -97,7 +97,7 @@ function AppContent() {
         </div>
       </nav>
 
-      <main className="p-4">
+      <main className="p-2">
         <Routes>
           <Route index element={<ServiceListScreen />} />
           <Route path="summary" element={<ServiceSummaryScreen />} />
