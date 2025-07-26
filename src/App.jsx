@@ -51,32 +51,30 @@ function AppContent() {
   const isTenantAdmin    =
     profile?.isAdmin === true && profile?.companyId === companyId;
 
-  const baseBtn =
-    "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
+  const menuItem =
+    "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap";
 
   return (
     <>
-      <header className="p-4 bg-gray-100 flex flex-wrap justify-between items-center gap-2">
+      <header className="p-4 bg-white shadow flex flex-wrap justify-between items-center gap-2">
         <Link to={`/${slug}`} className="text-xl font-bold">{projectName}</Link>
         <div className="flex flex-wrap items-center gap-2">
-          {user && (
-            <>
-              <Link to={`/${slug}/mis-turnos`} className={baseBtn}>Mis Turnos</Link>
-              <Link to={`/${slug}/mi-perfil`} className={baseBtn}>Mi Perfil</Link>
-              {isTenantAdmin && (
-                <Link to={`/${slug}/admin`} className={baseBtn}>Panel Admin</Link>
-              )}
-            </>
-          )}
           {user ? (
-            <button
-              onClick={() => signOut(auth)}
-              className={baseBtn}
-            >
-              Logout
-            </button>
+            <details className="relative dropdown">
+              <summary className="cursor-pointer px-3 py-1 rounded-md text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100">
+                Menú
+              </summary>
+              <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg flex flex-col z-10">
+                <Link to={`/${slug}/mis-turnos`} className={menuItem}>Mis Turnos</Link>
+                <Link to={`/${slug}/mi-perfil`} className={menuItem}>Mi Perfil</Link>
+                {isTenantAdmin && (
+                  <Link to={`/${slug}/admin`} className={menuItem}>Panel Admin</Link>
+                )}
+                <button onClick={() => signOut(auth)} className={menuItem}>Logout</button>
+              </div>
+            </details>
           ) : (
-            <Link to={`/${slug}/login`} className={baseBtn}>Login</Link>
+            <Link to={`/${slug}/login`} className="px-3 py-1 rounded-md text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100">Login</Link>
           )}
         </div>
       </header>
