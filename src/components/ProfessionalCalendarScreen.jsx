@@ -28,7 +28,7 @@ export default function ProfessionalCalendarScreen() {
 
   // Memoizamos los próximos 7 días
   const days = useMemo(
-    () => Array.from({ length: 7 }, (_, i) => addDays(new Date(), i)),
+    () => Array.from({ length: 7 }, (_, i) => addDays(startOfDay(new Date()), i)),
     []
   );
 
@@ -101,8 +101,9 @@ export default function ProfessionalCalendarScreen() {
         if (!block) return;
         const [fh, fm] = block.from.split(':').map(Number);
         const [th, tm] = block.to.split(':').map(Number);
-        const blockStart = setMinutes(setHours(date, fh), fm).getTime();
-        const blockEnd = setMinutes(setHours(date, th), tm).getTime();
+        const dayStart = startOfDay(date);
+        const blockStart = setMinutes(setHours(dayStart, fh), fm).getTime();
+        const blockEnd = setMinutes(setHours(dayStart, th), tm).getTime();
 
         let cursor = blockStart;
 
