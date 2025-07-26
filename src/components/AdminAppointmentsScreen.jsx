@@ -64,7 +64,7 @@ export default function AdminAppointmentsScreen({ appointments }) {
       <div className="p-4 max-w-4xl mx-auto">
         <button
           onClick={() => setSelectedDate(null)}
-          className="mb-4 text-blue-500 underline"
+          className="mb-4 text-[#c2956b] underline"
         >
           ← Volver a días
         </button>

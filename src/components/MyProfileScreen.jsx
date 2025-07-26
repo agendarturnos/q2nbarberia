@@ -85,7 +85,7 @@ export default function MyProfileScreen() {
       </div>
       <button
         onClick={handleSave}
-        className="w-full bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition"
+        className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition"
       >
         Guardar Cambios
       </button>

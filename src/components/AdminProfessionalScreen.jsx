@@ -215,7 +215,7 @@ export default function AdminProfessionalScreen({
                       <button
                         type="button"
                         onClick={() => startCopy(day)}
-                        className="bg-blue-500 text-white w-6 h-6 rounded-full flex items-center justify-center ml-1"
+                        className="bg-[#c2956b] text-white w-6 h-6 rounded-full flex items-center justify-center ml-1"
                         title="Copiar a otros"
                       >
                         ⎘
@@ -273,7 +273,7 @@ export default function AdminProfessionalScreen({
                       <button
                         type="button"
                         onClick={confirmCopy}
-                        className="bg-blue-500 text-white px-2 py-1 rounded"
+                        className="bg-[#c2956b] text-white px-2 py-1 rounded"
                       >
                         Copiar
                       </button>
@@ -320,7 +320,7 @@ export default function AdminProfessionalScreen({
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-2 rounded-full hover:bg-blue-700 transition"
+          className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition"
         >
           {editingId ? 'Guardar Cambios' : 'Agregar Profesional'}
         </button>
