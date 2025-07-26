@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { useTenant } from '../TenantProvider';
+import TimelineChart from './TimelineChart';
 
 export default function AdminAppointmentsScreen({ appointments }) {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -70,6 +71,7 @@ export default function AdminAppointmentsScreen({ appointments }) {
         <h3 className="text-xl font-semibold mb-4">
           Turnos para {prettyDate}
         </h3>
+        <TimelineChart appointments={list} />
 
         {/* Desktop */}
         <div className="hidden md:block overflow-x-auto">
@@ -91,9 +93,12 @@ export default function AdminAppointmentsScreen({ appointments }) {
               {list.map(appt => {
                 const user = userMap[appt.clientId] || {};
                 const dt = parseISO(appt.datetime);
+                const end = new Date(dt.getTime() + (appt.duration || 0) * 60000);
                 return (
                   <tr key={appt.id} className="border-b">
-                    <td className="px-4 py-2">{format(dt, 'HH:mm')}</td>
+                    <td className="px-4 py-2">
+                      {format(dt, 'HH:mm')} - {format(end, 'HH:mm')}
+                    </td>
                     <td className="px-4 py-2">{appt.stylistName}</td>
                     <td className="px-4 py-2">{appt.serviceName}</td>
                     <td className="px-4 py-2">
@@ -166,7 +171,9 @@ export default function AdminAppointmentsScreen({ appointments }) {
                 className="bg-white rounded-lg shadow p-4 space-y-2"
               >
                 <div className="flex justify-between">
-                  <span className="font-semibold">{format(dt, 'HH:mm')}</span>
+                  <span className="font-semibold">
+                    {format(dt, 'HH:mm')} - {format(new Date(dt.getTime() + (appt.duration || 0) * 60000), 'HH:mm')}
+                  </span>
                   <div className="flex space-x-2">
                     {usaConfirmacionSenia && !appt.depositConfirmed && (
                       <button
