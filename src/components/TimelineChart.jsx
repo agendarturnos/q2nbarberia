@@ -1,6 +1,12 @@
 // src/components/TimelineChart.jsx
 import React, { useMemo } from 'react';
-import { parseISO, format } from 'date-fns';
+import {
+  parseISO,
+  format,
+  startOfHour,
+  addHours,
+  differenceInMinutes,
+} from 'date-fns';
 
 export default function TimelineChart({ appointments }) {
   const sorted = useMemo(
@@ -10,47 +16,69 @@ export default function TimelineChart({ appointments }) {
 
   const start = useMemo(() => {
     if (!sorted.length) return null;
-    const first = parseISO(sorted[0].datetime);
-    first.setMinutes(Math.floor(first.getMinutes() / 30) * 30, 0, 0);
-    return first;
+    return startOfHour(parseISO(sorted[0].datetime));
   }, [sorted]);
 
   const end = useMemo(() => {
     if (!sorted.length) return null;
-    const last = parseISO(sorted[sorted.length - 1].datetime);
-    last.setMinutes(Math.ceil(last.getMinutes() / 30) * 30, 0, 0);
-    return last;
+    let lastEnd = parseISO(sorted[0].datetime);
+    sorted.forEach(appt => {
+      const st = parseISO(appt.datetime);
+      const en = new Date(st.getTime() + (appt.duration || 0) * 60000);
+      if (en > lastEnd) lastEnd = en;
+    });
+    return addHours(startOfHour(lastEnd), 1);
   }, [sorted]);
 
-  const slots = useMemo(() => {
+  const hours = useMemo(() => {
     if (!start || !end) return [];
     const arr = [];
-    const t = new Date(start);
+    let t = start;
     while (t <= end) {
-      arr.push(new Date(t));
-      t.setMinutes(t.getMinutes() + 30);
+      arr.push(t);
+      t = addHours(t, 1);
     }
     return arr;
   }, [start, end]);
 
+  const pxPerMinute = 2;
+  const totalMinutes = start && end ? differenceInMinutes(end, start) : 0;
+  const height = totalMinutes * pxPerMinute;
+
+  const offset = d => differenceInMinutes(d, start) * pxPerMinute;
+
   return (
-    <div className="grid grid-cols-[60px_1fr] text-sm mb-6">
-      {slots.map(slot => {
-        const timeStr = format(slot, 'HH:mm');
-        const apptsAt = sorted.filter(
-          appt => format(parseISO(appt.datetime), 'HH:mm') === timeStr
-        );
+    <div className="relative mb-6" style={{ height }}>
+      {hours.map(h => (
+        <React.Fragment key={h.getTime()}>
+          <div
+            className="absolute left-0 w-12 pr-2 text-right text-gray-500 text-xs"
+            style={{ top: offset(h) - 6 }}
+          >
+            {format(h, 'HH:mm')}
+          </div>
+          <div
+            className="absolute left-12 right-0 border-t border-gray-200"
+            style={{ top: offset(h) }}
+          />
+        </React.Fragment>
+      ))}
+
+      {sorted.map(appt => {
+        const st = parseISO(appt.datetime);
+        const top = offset(st);
+        const h = (appt.duration || 30) * pxPerMinute;
         return (
-          <React.Fragment key={slot.getTime()}>
-            <div className="border-t py-1 pr-2 text-right text-gray-500">{timeStr}</div>
-            <div className="border-t py-1 space-y-1">
-              {apptsAt.map(appt => (
-                <div key={appt.id} className="bg-blue-100 rounded px-2 py-1">
-                  {appt.serviceName} - {appt.stylistName}
-                </div>
-              ))}
+          <div
+            key={appt.id}
+            className="absolute left-12 right-2 bg-blue-100 rounded p-2 text-xs shadow"
+            style={{ top, height: h }}
+          >
+            <div className="font-medium">
+              {format(st, 'HH:mm')} - {appt.serviceName}
             </div>
-          </React.Fragment>
+            <div className="text-gray-700">{appt.stylistName}</div>
+          </div>
         );
       })}
     </div>
