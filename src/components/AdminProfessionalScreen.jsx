@@ -207,7 +207,7 @@ export default function AdminProfessionalScreen({
                       <button
                         type="button"
                         onClick={() => addBlock(day)}
-                        className="bg-green-500 text-white w-6 h-6 rounded-full flex items-center justify-center"
+                        className="bg-[#5bcf85] text-white w-6 h-6 rounded-full flex items-center justify-center"
                         title="Agregar bloque"
                       >
                         +
@@ -298,7 +298,7 @@ export default function AdminProfessionalScreen({
             <input id="exc-date" type="date" className="border p-1 rounded" />
             <button
               onClick={() => addException(document.getElementById('exc-date').value)}
-              className="bg-green-500 text-white px-3 py-1 rounded"
+              className="bg-[#5bcf85] text-white px-3 py-1 rounded"
             >
               Agregar
             </button>

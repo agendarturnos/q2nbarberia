@@ -137,7 +137,7 @@ export default function AdminServiceScreen({
         </div>
         <button
           type="submit"
-          className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition"
+          className="w-full bg-[#f1bc8a] text-white py-2 rounded-full hover:bg-[#f1bc8a] transition"
         >
           {form.id ? 'Guardar cambios' : 'Agregar servicio'}
         </button>
@@ -169,7 +169,7 @@ export default function AdminServiceScreen({
             <div className="flex flex-col space-y-1">
               <button
                 onClick={() => startEdit(svc.id)}
-                className="text-[#c2956b] hover:text-[#c2956b] transition"
+                className="text-[#f1bc8a] hover:text-[#f1bc8a] transition"
               >
                 Editar
               </button>

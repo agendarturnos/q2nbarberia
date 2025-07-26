@@ -14,7 +14,7 @@ export default function ServiceSummaryScreen() {
         <p className="text-gray-500 mb-4">No se encontró el servicio seleccionado.</p>
         <button
           onClick={() => navigate(`/${slug}`)}
-          className="text-[#c2956b] underline"
+          className="text-[#f1bc8a] underline"
         >
           Volver al menú
         </button>
@@ -32,7 +32,7 @@ export default function ServiceSummaryScreen() {
         <p className="text-gray-600 mb-6">Duración: {service.duration} min</p>
         <button
           onClick={() => navigate(`/${slug}/stylists`, { state: { service } })}
-          className="mt-auto w-full py-2 border border-[#c2956b] text-[#c2956b] rounded-full hover:bg-[#c2956b] hover:text-white transition"
+          className="mt-auto w-full py-2 border border-[#f1bc8a] text-[#f1bc8a] rounded-full hover:bg-[#f1bc8a] hover:text-white transition"
         >
           Elegir Profesional
         </button>

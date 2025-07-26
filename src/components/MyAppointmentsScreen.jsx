@@ -191,7 +191,7 @@ export default function MyAppointmentsScreen() {
                       <span
                         className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
                           depositConfirmed
-                            ? 'bg-green-100 text-green-800'
+                            ? 'bg-[#f1bc8a] text-green-800'
                             : 'bg-yellow-100 text-yellow-800'
                         }`}
                       >

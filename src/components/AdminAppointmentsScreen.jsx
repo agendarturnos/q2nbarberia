@@ -64,7 +64,7 @@ export default function AdminAppointmentsScreen({ appointments }) {
       <div className="p-4 max-w-4xl mx-auto">
         <button
           onClick={() => setSelectedDate(null)}
-          className="mb-4 text-[#c2956b] underline"
+          className="mb-4 text-[#f1bc8a] underline"
         >
           ← Volver a días
         </button>
@@ -96,8 +96,8 @@ export default function AdminAppointmentsScreen({ appointments }) {
                 const end = new Date(dt.getTime() + (appt.duration || 0) * 60000);
                 return (
                   <tr key={appt.id} className="border-b">
-                    <td className="px-4 py-2">
-                      {format(dt, 'HH:mm')} - {format(end, 'HH:mm')}
+                    <td className="px-2 py-2">
+                      {format(dt, 'HH:mm')} a {format(end, 'HH:mm')}
                     </td>
                     <td className="px-4 py-2">{appt.stylistName}</td>
                     <td className="px-4 py-2">{appt.serviceName}</td>

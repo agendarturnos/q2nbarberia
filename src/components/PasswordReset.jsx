@@ -47,7 +47,7 @@ export default function PasswordReset() {
         <p
           className={`text-sm p-2 rounded ${
             status.type === 'success'
-              ? 'bg-green-100 text-green-800'
+              ? 'bg-[#f1bc8a] text-green-800'
               : 'bg-red-100 text-red-800'
           }`}
         >
@@ -65,13 +65,13 @@ export default function PasswordReset() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition disabled:opacity-50"
+          className="w-full bg-[#f1bc8a] text-white py-2 rounded-full hover:bg-[#f1bc8a] transition disabled:opacity-50"
         >
           {loading ? 'Enviando…' : 'Enviar enlace de recuperación'}
         </button>
       </form>
       <div className="text-center text-sm">
-        <Link to={`/${slug}/login`} className="text-[#c2956b] underline">
+        <Link to={`/${slug}/login`} className="text-[#f1bc8a] underline">
           Volver al login
         </Link>
       </div>

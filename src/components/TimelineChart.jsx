@@ -98,7 +98,7 @@ export default function TimelineChart({ appointments, userMap = {} }) {
           return (
             <div
               key={appt.id}
-              className="absolute bg-[#c2956b] rounded p-2 text-xs shadow"
+              className="absolute bg-[#f1bc8a] rounded p-2 text-xs shadow"
               style={{ left, width: w, top }}
             >
               <div className="font-medium">

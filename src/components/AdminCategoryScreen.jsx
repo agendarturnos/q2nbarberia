@@ -51,7 +51,7 @@ export default function AdminCategoryScreen({
         />
         <button
           onClick={handleSubmit}
-          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
+          className="w-full bg-[#f1bc8a] text-white py-2 rounded hover:bg-[#f1bc8a]"
         >
           {editingId ? 'Guardar Cambios' : 'Agregar Categoría'}
         </button>

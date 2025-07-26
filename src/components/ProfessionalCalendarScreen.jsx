@@ -217,9 +217,9 @@ export default function ProfessionalCalendarScreen() {
               disabled={!hasSlots}
               className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition ${
                 isSelected
-                  ? 'bg-[#c2956b] text-white'
+                  ? 'bg-[#f1bc8a] text-white'
                   : hasSlots
-                  ? 'bg-white text-gray-800 hover:bg-[#c2956b]'
+                  ? 'bg-white text-gray-800 hover:bg-[#f1bc8a]'
                   : 'bg-gray-100 text-gray-400 cursor-not-allowed'
               }`}
             >
@@ -236,7 +236,7 @@ export default function ProfessionalCalendarScreen() {
             <button
               key={dt.getTime()}
               onClick={() => handleSlotClick(dt)}
-              className="py-2 text-sm bg-white rounded shadow hover:bg-[#c2956b] transition"
+              className="py-2 text-sm bg-white rounded shadow hover:bg-[#f1bc8a] transition"
             >
               {format(dt, 'HH:mm')}
             </button>
