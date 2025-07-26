@@ -17,6 +17,7 @@
   --nav-font: "Ubuntu",  sans-serif;
 }
 
+
 /* Global Colors - The following color variables are used throughout the website. Updating them here will change the color scheme of the entire website */
 :root { 
   --background-color: #ffffff; /* Background color for the entire website, including individual sections */
@@ -47,6 +48,10 @@
 .light-background {
   --background-color: #f9f9f9;
   --surface-color: #ffffff;
+}
+
+.bg-primary{
+  background-color: #383937!important;
 }
 
 .dark-background {
@@ -1770,7 +1775,7 @@ section,
   /* Add your styles here */
 }
 :root { --bs-primary: #c2956b; --bs-primary-rgb: 194,149,107; }
-.bg-primary{background-color:#c2956b!important;}
+.bg-primary2{background-color:#383937!important;}
 .btn-primary{background-color:#c2956b;border-color:#c2956b;}
 .btn-primary:hover{background-color:#c2956b;border-color:#c2956b;}
 

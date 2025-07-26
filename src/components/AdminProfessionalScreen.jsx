@@ -320,7 +320,7 @@ export default function AdminProfessionalScreen({
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition"
+          className="w-full bg-[#f1bc8a] text-white py-2 rounded-full hover:bg-[#f1bc8a] transition"
         >
           {editingId ? 'Guardar Cambios' : 'Agregar Profesional'}
         </button>

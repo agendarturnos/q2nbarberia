@@ -32,7 +32,7 @@ export default function ServiceSummaryScreen() {
         <p className="text-gray-600 mb-6">Duración: {service.duration} min</p>
         <button
           onClick={() => navigate(`/${slug}/stylists`, { state: { service } })}
-          className="mt-auto w-full py-2 border border-[#f1bc8a] text-[#f1bc8a] rounded-full hover:bg-[#f1bc8a] hover:text-white transition"
+          className="mt-auto h4 text-capitalize w-full py-2 border border-[#f1bc8a] text-[#f1bc8a] rounded-full hover:bg-[#f1bc8a] hover:text-white transition"
         >
           Elegir Profesional
         </button>
