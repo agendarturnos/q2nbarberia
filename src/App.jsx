@@ -52,11 +52,11 @@ function AppContent() {
     profile?.isAdmin === true && profile?.companyId === companyId;
 
   const baseBtn =
-    "px-3 py-1 rounded-md text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors";
+    "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
 
   return (
     <>
-      <header className="p-4 bg-white shadow flex flex-wrap justify-between items-center gap-2">
+      <header className="p-4 bg-gray-100 flex flex-wrap justify-between items-center gap-2">
         <Link to={`/${slug}`} className="text-xl font-bold">{projectName}</Link>
         <div className="flex flex-wrap items-center gap-2">
           {user && (
