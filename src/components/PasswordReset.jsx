@@ -65,13 +65,13 @@ export default function PasswordReset() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition disabled:opacity-50"
+          className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition disabled:opacity-50"
         >
           {loading ? 'Enviando…' : 'Enviar enlace de recuperación'}
         </button>
       </form>
       <div className="text-center text-sm">
-        <Link to={`/${slug}/login`} className="text-blue-500 underline">
+        <Link to={`/${slug}/login`} className="text-[#c2956b] underline">
           Volver al login
         </Link>
       </div>

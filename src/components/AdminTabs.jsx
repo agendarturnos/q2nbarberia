@@ -27,25 +27,25 @@ export default function AdminTabs({
       <div className="flex flex-wrap space-x-2 mb-4">
         <button
           onClick={() => setTab('services')}
-          className={`px-4 py-2 my-2 rounded ${tab === 'services' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 my-2 rounded ${tab === 'services' ? 'bg-[#c2956b] text-white' : 'bg-gray-200'}`}
         >
           Servicios
         </button>
         <button
           onClick={() => setTab('professionals')}
-          className={`px-4 py-2 my-2 rounded ${tab === 'professionals' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 my-2 rounded ${tab === 'professionals' ? 'bg-[#c2956b] text-white' : 'bg-gray-200'}`}
         >
           Profesionales
         </button>
         <button
           onClick={() => setTab('appointments')}
-          className={`px-4 py-2 my-2 rounded ${tab === 'appointments' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 my-2 rounded ${tab === 'appointments' ? 'bg-[#c2956b] text-white' : 'bg-gray-200'}`}
         >
           Turnos
         </button>
         <button
           onClick={() => setTab('categories')}
-          className={`px-4 py-2 my-2 rounded ${tab === 'categories' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+          className={`px-4 py-2 my-2 rounded ${tab === 'categories' ? 'bg-[#c2956b] text-white' : 'bg-gray-200'}`}
         >
           Categorías
         </button>

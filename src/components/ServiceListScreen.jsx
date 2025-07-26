@@ -52,7 +52,7 @@ export default function ServiceListScreen() {
           onClick={() => setSelectedCat('')}
           className={`px-4 py-1 rounded-full text-sm ${
             selectedCat === ''
-              ? 'bg-blue-500 text-white'
+              ? 'bg-[#c2956b] text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
@@ -64,7 +64,7 @@ export default function ServiceListScreen() {
             onClick={() => setSelectedCat(cat.id)}
             className={`px-4 py-1 rounded-full text-sm ${
               selectedCat === cat.id
-                ? 'bg-blue-500 text-white'
+                ? 'bg-[#c2956b] text-white'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
             }`}
           >
@@ -92,7 +92,7 @@ export default function ServiceListScreen() {
             <Link
               to={`/${slug}/summary`}
               state={{ service: svc }}
-              className="mt-auto w-full py-2 border border-blue-500 text-blue-500 rounded-full text-center hover:bg-blue-500 hover:text-white transition"
+              className="mt-auto w-full py-2 border border-[#c2956b] text-[#c2956b] rounded-full text-center hover:bg-[#c2956b] hover:text-white transition"
             >
               Elegir
             </Link>

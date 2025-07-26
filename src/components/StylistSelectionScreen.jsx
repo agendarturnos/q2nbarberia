@@ -60,7 +60,7 @@ export default function StylistSelectionScreen() {
                 onClick={() =>
                   navigate(`/${slug}/professional`, { state: { service, stylist: st } })
                 }
-                className="py-2 px-4 border border-blue-500 text-blue-500 rounded-full hover:bg-blue-500 hover:text-white transition"
+                className="py-2 px-4 border border-[#c2956b] text-[#c2956b] rounded-full hover:bg-[#c2956b] hover:text-white transition"
               >
                 Seleccionar
               </button>

@@ -135,7 +135,7 @@ export default function Login() {
 
       <button
         onClick={handleAuth}
-        className="w-full bg-blue-500 text-white py-2 rounded-full hover:bg-blue-600 transition"
+        className="w-full bg-[#c2956b] text-white py-2 rounded-full hover:bg-[#c2956b] transition"
       >
         {isRegister ? 'Registrarse' : 'Entrar'}
       </button>
@@ -143,11 +143,11 @@ export default function Login() {
       <div className="flex justify-between text-sm">
         <button
           onClick={() => setIsRegister(!isRegister)}
-          className="text-blue-500 underline"
+          className="text-[#c2956b] underline"
         >
           {isRegister ? 'Ya tengo cuenta' : 'Crear cuenta'}
         </button>
-         <Link to={`/${slug}/reset-password`} className="text-blue-500 underline">
+         <Link to={`/${slug}/reset-password`} className="text-[#c2956b] underline">
            Recuperar Contraseña
          </Link>
       </div>
