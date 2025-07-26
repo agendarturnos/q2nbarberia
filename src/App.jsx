@@ -46,10 +46,14 @@ export default function App() {
 function AppContent() {
   const { user, profile } = useAuth();
   const location         = useLocation();
-  const { slug, projectName, companyId } = useTenant();
+  const { slug, projectName, adminEmail } = useTenant();
   // usados para mostrar/ocultar el panel admin
   const isTenantAdmin    =
-    profile?.isAdmin === true && profile?.companyId === companyId;
+    profile?.isAdmin === true &&
+    user?.email &&
+    (Array.isArray(adminEmail)
+      ? adminEmail.includes(user.email)
+      : user.email === adminEmail);
 
   const baseBtn =
     "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
