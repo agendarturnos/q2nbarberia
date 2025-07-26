@@ -42,12 +42,12 @@ VITE_FIREBASE_APP_ID=XXXX
 
 ### Configuración de clientes (tenants)
 
-Crea una colección `tenants` en Firestore donde cada documento represente un cliente. El ID del documento será el *slug* utilizado en la URL y debe incluir al menos los campos `companyId` y `projectName`:
+Crea una colección `tenants` en Firestore donde cada documento represente un cliente. El ID del documento será el *slug* utilizado en la URL y debe incluir al menos los campos `companyId`, `projectName` y `adminEmail`:
 
 ```text
 tenants/
-  barberia1 { companyId: "c1", projectName: "Barbería 1" }
-  barberia2 { companyId: "c2", projectName: "Barbería 2" }
+  barberia1 { companyId: "c1", projectName: "Barbería 1", adminEmail: "admin1@example.com" }
+  barberia2 { companyId: "c2", projectName: "Barbería 2", adminEmail: "admin2@example.com" }
 ```
 
 Al acceder a `agendarturnos.ar/{cliente}` la aplicación cargará estos datos y los usará para filtrar la información.
