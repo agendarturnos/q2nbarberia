@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -51,52 +51,35 @@ function AppContent() {
   const isTenantAdmin    =
     profile?.isAdmin === true && profile?.companyId === companyId;
 
-  useEffect(() => {
-    if (window.M && window.M.AutoInit) {
-      window.M.AutoInit();
-    }
-  }, []);
-
+  const baseBtn =
+    "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
 
   return (
     <>
-      <nav className="white z-depth-0">
-        <div className="nav-wrapper container">
-          <Link to={`/${slug}`} className="brand-logo black-text">
-            {projectName}
-          </Link>
-          <a href="#" data-target="mobile-menu" className="sidenav-trigger black-text">
-            <i className="material-icons">menu</i>
-          </a>
-          {user ? (
+      <header className="p-4 bg-gray-100 flex flex-wrap justify-between items-center gap-2">
+        <Link to={`/${slug}`} className="text-xl font-bold">{projectName}</Link>
+        <div className="flex flex-wrap items-center gap-2">
+          {user && (
             <>
-              <a href="#" className="dropdown-trigger right black-text" data-target="user-dropdown">
-                Menú <i className="material-icons right">arrow_drop_down</i>
-              </a>
-              <ul id="user-dropdown" className="dropdown-content">
-                <li><Link to={`/${slug}/mis-turnos`}>Mis Turnos</Link></li>
-                <li><Link to={`/${slug}/mi-perfil`}>Mi Perfil</Link></li>
-                {isTenantAdmin && (
-                  <li><Link to={`/${slug}/admin`}>Panel Admin</Link></li>
-                )}
-                <li><a href="#" onClick={() => signOut(auth)}>Logout</a></li>
-              </ul>
+              <Link to={`/${slug}/mis-turnos`} className={baseBtn}>Mis Turnos</Link>
+              <Link to={`/${slug}/mi-perfil`} className={baseBtn}>Mi Perfil</Link>
+              {isTenantAdmin && (
+                <Link to={`/${slug}/admin`} className={baseBtn}>Panel Admin</Link>
+              )}
             </>
+          )}
+          {user ? (
+            <button
+              onClick={() => signOut(auth)}
+              className={baseBtn}
+            >
+              Logout
+            </button>
           ) : (
-            <Link to={`/${slug}/login`} className="right btn-flat black-text">Login</Link>
+            <Link to={`/${slug}/login`} className={baseBtn}>Login</Link>
           )}
         </div>
-      </nav>
-      {user && (
-        <ul id="mobile-menu" className="sidenav">
-          <li><Link to={`/${slug}/mis-turnos`}>Mis Turnos</Link></li>
-          <li><Link to={`/${slug}/mi-perfil`}>Mi Perfil</Link></li>
-          {isTenantAdmin && (
-            <li><Link to={`/${slug}/admin`}>Panel Admin</Link></li>
-          )}
-          <li><a href="#" onClick={() => signOut(auth)}>Logout</a></li>
-        </ul>
-      )}
+      </header>
 
       <main className="p-4">
         <Routes>

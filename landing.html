@@ -16,9 +16,6 @@
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <!-- Materialize CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -33,29 +30,26 @@
 </head>
 
 <body class="index-page">
-  <header id="header">
-    <nav class="white z-depth-0">
-      <div class="nav-wrapper container">
-        <a href="index.html" class="brand-logo">
-          <img src="assets/img/2.png" alt="Sistema de Turnos" class="responsive-img" style="height:60px">
-        </a>
-        <a href="#" data-target="mobile-demo" class="sidenav-trigger black-text"><i class="material-icons">menu</i></a>
-        <ul class="right hide-on-med-and-down">
-          <li><a href="#hero" class="black-text">Inicio</a></li>
-          <li><a href="#services" class="black-text">Ventajas</a></li>
-          <li><a href="#portfolio" class="black-text">Más Info</a></li>
-          <li><a href="#contact" class="black-text">Contacto</a></li>
-          <li><a href="#about" class="btn waves-effect white black-text">Ingreso Clientes</a></li>
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
+            <img src="assets/img/2.png" class="img-fluid logo" alt="Sistema de Turnos">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Inicio</a></li>
+          <li><a href="#services">Ventajas</a></li>
+          <li><a href="#portfolio">Más Info</a></li>
+          <li><a href="#contact">Contacto</a></li>
         </ul>
-      </div>
-    </nav>
-    <ul class="sidenav" id="mobile-demo">
-      <li><a href="#hero">Inicio</a></li>
-      <li><a href="#services">Ventajas</a></li>
-      <li><a href="#portfolio">Más Info</a></li>
-      <li><a href="#contact">Contacto</a></li>
-      <li><a href="#about">Ingreso Clientes</a></li>
-    </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="#about">Ingreso Clientes</a>
+
+    </div>
   </header>
 
   <main class="main">
@@ -274,9 +268,6 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-  <!-- Materialize JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script>document.addEventListener('DOMContentLoaded',function(){if(window.M) window.M.AutoInit();});</script>
 
 </body>
 
