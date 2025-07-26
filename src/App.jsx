@@ -4,12 +4,8 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
-  Link,
-  useLocation
+  Navigate
 } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
-import { auth } from './firebaseConfig';
 import { AuthProvider, useAuth } from './AuthProvider';
 import { TenantProvider, useTenant } from './TenantProvider';
 import RequireAuth from './components/RequireAuth';
@@ -22,6 +18,7 @@ import MyAppointmentsScreen from './components/MyAppointmentsScreen';
 import MyProfileScreen from './components/MyProfileScreen';
 import AdminRouter from './routes/AdminRouter';
 import Login from './components/Login';
+import MainNavbar from './components/MainNavbar';
 
 export default function App() {
   return (
@@ -44,7 +41,6 @@ export default function App() {
 
 function AppContent() {
   const { user, profile } = useAuth();
-  const location         = useLocation();
   const { slug, projectName, companyId } = useTenant();
   // usados para mostrar/ocultar el panel admin
   const isTenantAdmin    =
@@ -52,50 +48,7 @@ function AppContent() {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to={`/${slug}`}>{projectName}</Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div className="collapse navbar-collapse" id="mainNavbar">
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              {user && (
-                <>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={`/${slug}/mis-turnos`}>Mis Turnos</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={`/${slug}/mi-perfil`}>Mi Perfil</Link>
-                  </li>
-                  {isTenantAdmin && (
-                    <li className="nav-item">
-                      <Link className="nav-link" to={`/${slug}/admin`}>Panel Admin</Link>
-                    </li>
-                  )}
-                </>
-              )}
-              {user ? (
-                <li className="nav-item">
-                  <button onClick={() => signOut(auth)} className="nav-link btn btn-link">Logout</button>
-                </li>
-              ) : (
-                <li className="nav-item">
-                  <Link className="nav-link" to={`/${slug}/login`}>Login</Link>
-                </li>
-              )}
-            </ul>
-          </div>
-        </div>
-      </nav>
+      <MainNavbar />
 
       <main className="p-2">
         <Routes>
