@@ -22,7 +22,6 @@ import MyAppointmentsScreen from './components/MyAppointmentsScreen';
 import MyProfileScreen from './components/MyProfileScreen';
 import AdminRouter from './routes/AdminRouter';
 import Login from './components/Login';
-import Landing from './components/Landing';
 
 export default function App() {
   return (
@@ -51,35 +50,52 @@ function AppContent() {
   const isTenantAdmin    =
     profile?.isAdmin === true && profile?.companyId === companyId;
 
-  const baseBtn =
-    "px-3 py-1 rounded-full text-sm font-medium bg-white text-gray-800 border border-gray-300 hover:bg-gray-50 transition";
-
   return (
     <>
-      <header className="p-4 bg-gray-100 flex flex-wrap justify-between items-center gap-2">
-        <Link to={`/${slug}`} className="text-xl font-bold">{projectName}</Link>
-        <div className="flex flex-wrap items-center gap-2">
-          {user && (
-            <>
-              <Link to={`/${slug}/mis-turnos`} className={baseBtn}>Mis Turnos</Link>
-              <Link to={`/${slug}/mi-perfil`} className={baseBtn}>Mi Perfil</Link>
-              {isTenantAdmin && (
-                <Link to={`/${slug}/admin`} className={baseBtn}>Panel Admin</Link>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to={`/${slug}`}>{projectName}</Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
+          <div className="collapse navbar-collapse" id="mainNavbar">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+              {user && (
+                <>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={`/${slug}/mis-turnos`}>Mis Turnos</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to={`/${slug}/mi-perfil`}>Mi Perfil</Link>
+                  </li>
+                  {isTenantAdmin && (
+                    <li className="nav-item">
+                      <Link className="nav-link" to={`/${slug}/admin`}>Panel Admin</Link>
+                    </li>
+                  )}
+                </>
               )}
-            </>
-          )}
-          {user ? (
-            <button
-              onClick={() => signOut(auth)}
-              className={baseBtn}
-            >
-              Logout
-            </button>
-          ) : (
-            <Link to={`/${slug}/login`} className={baseBtn}>Login</Link>
-          )}
+              {user ? (
+                <li className="nav-item">
+                  <button onClick={() => signOut(auth)} className="nav-link btn btn-link">Logout</button>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <Link className="nav-link" to={`/${slug}/login`}>Login</Link>
+                </li>
+              )}
+            </ul>
+          </div>
         </div>
-      </header>
+      </nav>
 
       <main className="p-4">
         <Routes>
