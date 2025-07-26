@@ -18,7 +18,7 @@ export default function MainNavbar() {
   return (
     <nav className="navbar navbar-dark bg-primary navbar-expand-lg">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={`/${slug}`} onClick={close}>{projectName}</Link>
+        <Link className="text-white" to={`/${slug}`} onClick={close}>{projectName}</Link>
         <button
           className="navbar-toggler"
           type="button"
